@@ -1,9 +1,9 @@
 {
   "name": "op-gg-disable-ads",
-  "version": "1.0.0",
+  "version": "0.1.1",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "pkg -o op-gg-remove-ads -t node16-win-x64 index.js"
   },
   "author": "",
   "license": "ISC",
