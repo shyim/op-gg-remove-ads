@@ -31,7 +31,18 @@ async function main() {
             let patchedContent = content.toString().replaceAll("https://dtapp-player.op.gg/adsense.txt", "https://gist.githubusercontent.com/shyim/d3c8e3451d783f537686a4356ec6794f/raw/4c874d1fe305103848bea14736935c24ab52057a/gistfile1.txt");
             patchedContent = patchedContent.replace(/exports\.countryHasAds=\w;/gm, 'exports.countryHasAds=[];');
             patchedContent = patchedContent.replace(/exports\.countryHasAdsAdsense=\w;/gm, 'exports.countryHasAdsAdsense=[];');
+            patchedContent = patchedContent.replace('window.api.send("ads","on")', 'window.api.send("ads","off")');
+            patchedContent = patchedContent.replace('https://dtapp-player.op.gg/video_ads_only.html', 'chrome://version');
+            patchedContent = patchedContent.replace('https://dtapp-player.op.gg/adsense_wv.html', 'chrome://version');
             await fs.writeFileSync(`${assetDir}/${file}`, patchedContent);
+        }
+        if (file.endsWith('.css')) {
+            console.log(`Patching ${file}`);
+            let content = fs.readFileSync(`${assetDir}/${file}`);
+
+            content += ' .side-ads-content { display: none; }';
+
+            await fs.writeFileSync(`${assetDir}/${file}`, content);
         }
     }
 
