@@ -51,11 +51,6 @@ async function main() {
 
     console.log(`Deleting temp dir`);
     rimraf.sync("op-gg-unpacked")
-
-    await spawn(opggExe, {detached: true});
-
-    console.log('Starting OP.GG')
-    process.exit(0);
 }
 
 main().then(() => {});
