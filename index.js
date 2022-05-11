@@ -3,8 +3,13 @@ const path = require('path');
 const asar = require('asar');
 const spawn = require('child_process').spawn;
 const rimraf = require('rimraf');
-const opggAsarFile = `${path.dirname(process.env.APPDATA)}/Local/Programs/OP.GG/resources/app.asar`;
-const opggExe = `${path.dirname(process.env.APPDATA)}/Local/Programs/OP.GG/OP.GG.exe`;
+let opggAsarFile = '';
+
+if (process.platform == 'darwin') {
+    opggAsarFile = '/Applications/OP.GG.app/Contents/Resources/app.asar';
+} else {
+    opggAsarFile = `${path.dirname(process.env.APPDATA)}/Local/Programs/OP.GG/resources/app.asar`;
+}
 
 
 if (!fs.existsSync(opggAsarFile)) {
@@ -15,7 +20,11 @@ if (!fs.existsSync(opggAsarFile)) {
 async function main() {
     console.log('Kill running OP.GG');
 
-    await spawn("taskkill", ["/im", "OP.GG.exe", '/F']);
+    if (process.platform == 'darwin') {
+        await spawn("killall", ["-9", "OP.GG"]);
+    } else {
+        await spawn("taskkill", ["/im", "OP.GG.exe", '/F']);
+    }
 
     console.log("Unpacking OP.GG asar file")
     await asar.extractAll(opggAsarFile, "op-gg-unpacked");
@@ -40,7 +49,7 @@ async function main() {
             console.log(`Patching ${file}`);
             let content = fs.readFileSync(`${assetDir}/${file}`);
 
-            content += ' .side-ads-content { display: none; }';
+            content += ' .side-ads { display: none; } ' + "\n" + '.side-ads-content { display: none; }';
 
             await fs.writeFileSync(`${assetDir}/${file}`, content);
         }
