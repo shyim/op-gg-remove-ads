@@ -48,7 +48,9 @@ async function main() {
     }
 
     console.log(`Rebuilding ${opggAsarFile}`);
-    await asar.createPackage("op-gg-unpacked", opggAsarFile);
+    await asar.createPackageWithOptions("op-gg-unpacked", opggAsarFile, {
+        unpackDir: '{node_modules/node-ovhook,node_modules/rust-process}'
+    });
 
     console.log(`Deleting temp dir`);
     rimraf.sync("op-gg-unpacked")
