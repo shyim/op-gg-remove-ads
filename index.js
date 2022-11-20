@@ -38,11 +38,20 @@ async function main() {
 
             let content = fs.readFileSync(`${assetDir}/${file}`).toString();
             content = content.replaceAll("https://dtapp-player.op.gg/adsense.txt", "https://gist.githubusercontent.com/shyim/d3c8e3451d783f537686a4356ec6794f/raw/4c874d1fe305103848bea14736935c24ab52057a/gistfile1.txt");
+
+            // Block Google Analytics
+            content = content.replaceAll('google-analytics.com/mp/collect', 'gist.githubusercontent.com');
+
             content = content.replace(/exports\.countryHasAds=\w;/gm, 'exports.countryHasAds=[];');
             content = content.replace(/exports\.countryHasAdsAdsense=\w;/gm, 'exports.countryHasAdsAdsense=[];');
             content = content.replace(/exports\.adsenseAds=\w;/gm, 'exports.adsenseAds=[];');
             content = content.replace(/exports\.playwireAds=\w;/gm, 'exports.playwireAds=[];');
             content = content.replace(/exports\.nitropayAds=\w;/gm, 'exports.nitropayAds=[];');
+            
+            // US AND EU specific Ads
+            content = content.replaceAll('["US","CA"].includes', '[].includes');
+            content = content.replaceAll('["AD","AL","AT","AX","BA","BE","BG","BY","CH","CY","CZ","DE","DK","EE","ES","FI","FO","FR","GB","GG","GI","GR","HR","HU","IE","IM","IS","IT","JE","LI","LT","LU","LV","MC","MD","ME","MK","MT","NL","NO","PL","PT","RO","RS","RU","SE","SI","SJ","SK","SM","UA","VA","XK"].includes', '[].includes');
+
             await fs.writeFileSync(`${assetDir}/${file}`, content);
         }
     }
