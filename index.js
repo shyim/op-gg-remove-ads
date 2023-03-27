@@ -49,6 +49,9 @@ async function main() {
             content = content.replaceAll('https://desktop.op.gg/api/tracking/ow', 'https://gist.githubusercontent.com');
             content = content.replaceAll('https://geo-internal.op.gg/api/current-ip', 'https://gist.githubusercontent.com');
 
+            // Use our proxy for the Frontend to filter out ads
+            content = content.replaceAll('https://opgg-desktop-data.akamaized.net', 'https://op-gg-remove-ads.shyim.workers.dev');
+
             await fs.writeFileSync(`${assetDir}/${file}`, content);
         }
     }
