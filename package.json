@@ -1,6 +1,6 @@
 {
   "name": "op-gg-disable-ads",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "main": "index.js",
   "scripts": {
     "build": "pkg -o op-gg-remove-ads -t node16-win-x64,node16-darwin-x64 index.js",
