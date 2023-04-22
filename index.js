@@ -51,6 +51,7 @@ async function main() {
 
             // Use our proxy for the Frontend to filter out ads
             content = content.replaceAll('https://opgg-desktop-data.akamaized.net', 'https://op-gg-remove-ads.shyim.workers.dev');
+            content = content.replaceAll('app.labs.sydney', 'op-gg-remove-ads.shyim.workers.dev');
 
             await fs.writeFileSync(`${assetDir}/${file}`, content);
         }
